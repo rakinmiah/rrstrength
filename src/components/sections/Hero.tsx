@@ -15,7 +15,7 @@ export function Hero() {
     <section
       id="top"
       aria-label="Introduction"
-      className="relative flex min-h-[88svh] items-end overflow-hidden pt-20 lg:min-h-svh lg:pt-0"
+      className="relative flex min-h-[88svh] items-center overflow-hidden pt-20 sm:items-end lg:min-h-svh lg:pt-0"
     >
       {/* Full-bleed photograph — portrait crop on phones, landscape on larger screens */}
       <Image

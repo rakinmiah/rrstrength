@@ -7,6 +7,14 @@ import { CTA_HREF } from "@/content/navigation";
 export function About() {
   return (
     <SectionShell id="about" tone="dark" aria-labelledby="about-h">
+      {/* Header — above the portrait on mobile only */}
+      <div className="mb-8 lg:hidden">
+        <Eyebrow>Meet your coach</Eyebrow>
+        <h2 className="mt-3 font-display text-h2 font-bold uppercase text-fg">
+          I started exactly where you are.
+        </h2>
+      </div>
+
       <div className="grid items-center gap-10 lg:grid-cols-[42fr_58fr] lg:gap-14">
         {/* Portrait (narrow column) */}
         <div className="relative mx-auto aspect-[4/5] w-full max-w-[460px] overflow-hidden rounded-lg border border-line">
@@ -22,15 +30,18 @@ export function About() {
 
         {/* Story (wide column) */}
         <div>
-          <Eyebrow>Meet your coach</Eyebrow>
-          <h2
-            id="about-h"
-            className="mt-4 font-display text-h2 font-bold uppercase text-fg"
-          >
-            I started exactly where you are.
-          </h2>
+          {/* Header — desktop only (mobile header is above the portrait) */}
+          <div className="hidden lg:block">
+            <Eyebrow>Meet your coach</Eyebrow>
+            <h2
+              id="about-h"
+              className="mt-4 font-display text-h2 font-bold uppercase text-fg"
+            >
+              I started exactly where you are.
+            </h2>
+          </div>
 
-          <blockquote className="mt-6 border-l-2 border-brick pl-5 font-display text-h3 uppercase text-fg">
+          <blockquote className="border-l-2 border-brick pl-5 font-display text-h3 uppercase text-fg lg:mt-6">
             “The muscle was the byproduct.”
           </blockquote>
 

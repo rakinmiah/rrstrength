@@ -11,10 +11,22 @@ import {
 } from "@/content/nextEvent";
 
 export function Events() {
+  const headline = nextEvent
+    ? "The next RR Strength event"
+    : EVENTS_NOEVENT_HEADLINE;
+
   return (
     <SectionShell id="events" tone="surface" aria-labelledby="events-h">
+      {/* Header — above the image on mobile only */}
+      <div className="mb-8 lg:hidden">
+        <Eyebrow>{EVENTS_EYEBROW}</Eyebrow>
+        <h2 className="mt-3 font-display text-h2 font-bold uppercase text-fg">
+          {headline}
+        </h2>
+      </div>
+
       <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
-        {/* Image (right on desktop, top on mobile) */}
+        {/* Image (right on desktop, between header and card on mobile) */}
         <div className="relative aspect-square w-full overflow-hidden rounded-lg border border-line lg:order-2">
           <Image
             src="/images/charity.jpg"
@@ -26,25 +38,29 @@ export function Events() {
           />
         </div>
 
-        {/* Text box (left on desktop) */}
-        <div className="rounded-lg border border-line bg-surface-raised p-7 lg:order-1 lg:p-9">
-          <Eyebrow>{EVENTS_EYEBROW}</Eyebrow>
+        {/* Text (left on desktop) */}
+        <div className="lg:order-1">
+          {/* Header — desktop only (mobile header is above the image) */}
+          <div className="hidden lg:block">
+            <Eyebrow>{EVENTS_EYEBROW}</Eyebrow>
+            <h2
+              id="events-h"
+              className="mt-3 font-display text-h3 font-bold uppercase text-fg"
+            >
+              {headline}
+            </h2>
+          </div>
+
           {nextEvent ? (
             <>
-              <h2
-                id="events-h"
-                className="mt-3 font-display text-h2 font-bold uppercase text-fg"
-              >
-                The next RR Strength event
-              </h2>
-              <p className="mt-3 text-[15px] text-muted">
+              <p className="text-[15px] text-muted lg:mt-2">
                 <time dateTime={nextEvent.date}>{nextEvent.dateLabel}</time> ·{" "}
                 {nextEvent.title}
               </p>
-              <p className="mt-3 text-[17px] leading-relaxed text-muted">
+              <p className="mt-3 text-[15px] leading-relaxed text-muted">
                 {nextEvent.cause}
               </p>
-              <div className="mt-7">
+              <div className="mt-6">
                 <Button
                   href={nextEvent.signupUrl}
                   variant="secondary"
@@ -57,16 +73,10 @@ export function Events() {
             </>
           ) : (
             <>
-              <h2
-                id="events-h"
-                className="mt-3 font-display text-h2 font-bold uppercase text-fg"
-              >
-                {EVENTS_NOEVENT_HEADLINE}
-              </h2>
-              <p className="mt-4 text-[17px] leading-relaxed text-muted">
+              <p className="text-[17px] leading-relaxed text-muted lg:mt-4">
                 {EVENTS_NOEVENT_BODY}
               </p>
-              <div className="mt-7">
+              <div className="mt-6">
                 <Button
                   href={contact.instagram}
                   variant="secondary"
