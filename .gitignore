@@ -39,3 +39,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Raw source material (originals kept locally; used assets live in public/images)
+/Old RRStrength Website/
+/WhatsApp Unknown 2026-05-24 at 10.28.09/
+
+# Nested Next.js build artifacts (any depth)
+**/.next/

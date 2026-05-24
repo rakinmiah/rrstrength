@@ -1,0 +1,119 @@
+import Link from "next/link";
+import Image from "next/image";
+import { navLinks, contact } from "@/content/navigation";
+
+// Brand glyph (lucide-react dropped brand logos; logos aren't part of the UI icon set).
+function InstagramGlyph() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden>
+      <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" strokeWidth="1.75" />
+      <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="1.75" />
+      <circle cx="17.5" cy="6.5" r="1" fill="currentColor" />
+    </svg>
+  );
+}
+
+const legal = [
+  { label: "Privacy Policy", href: "/privacy" },
+  { label: "Terms", href: "/terms" },
+  { label: "Cookie Policy", href: "/cookies" },
+];
+
+export function SiteFooter() {
+  const year = new Date().getFullYear(); // auto-derived — fixes old "© Year" defect
+
+  return (
+    <footer
+      role="contentinfo"
+      className="border-t border-line-light bg-bone text-ink-fg"
+    >
+      <div className="mx-auto max-w-[1240px] px-5 py-14 sm:px-8 lg:px-10">
+        <div className="grid gap-10 md:grid-cols-4">
+          {/* Brand */}
+          <div className="md:col-span-1">
+            <Image
+              src="/brand/rr-logo-white.png"
+              alt="RR Strength"
+              width={5427}
+              height={961}
+              className="h-7 w-auto [filter:brightness(0)]"
+            />
+            <p className="mt-3 max-w-56 text-sm text-ink-muted">
+              Strength coaching · Burgess Hill &amp; online
+            </p>
+            <div className="mt-4 flex gap-3">
+              <a
+                href={contact.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="RR Strength on Instagram"
+                className="grid size-11 place-items-center rounded-full border border-line-light transition-colors hover:border-brick hover:text-brick"
+              >
+                <InstagramGlyph />
+              </a>
+            </div>
+          </div>
+
+          {/* Contact */}
+          <FooterCol title="Contact">
+            <a className="footer-link" href={contact.phoneHref}>
+              {contact.phone}
+            </a>
+            <a className="footer-link break-all" href={contact.emailHref}>
+              {contact.email}
+            </a>
+            <a
+              className="footer-link"
+              href={contact.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {contact.instagramHandle}
+            </a>
+          </FooterCol>
+
+          {/* Navigate (root-relative so they work from legal pages too) */}
+          <FooterCol title="Navigate">
+            {navLinks.map((l) => (
+              <Link key={l.href} className="footer-link" href={`/${l.href}`}>
+                {l.label}
+              </Link>
+            ))}
+          </FooterCol>
+
+          {/* Legal */}
+          <FooterCol title="Legal">
+            {legal.map((l) => (
+              <Link key={l.href} className="footer-link" href={l.href}>
+                {l.label}
+              </Link>
+            ))}
+          </FooterCol>
+        </div>
+
+        <div className="mt-12 flex flex-col gap-2 border-t border-line-light pt-6 text-sm text-ink-muted sm:flex-row sm:justify-between">
+          <p>© {year} RR Strength. All rights reserved.</p>
+          <p>{contact.location}</p>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+function FooterCol({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <nav aria-label={title}>
+      <p className="font-sans text-eyebrow font-semibold uppercase text-ink-muted">
+        {title}
+      </p>
+      <div className="mt-4 flex flex-col gap-3 text-[15px]">{children}</div>
+    </nav>
+  );
+}
+
