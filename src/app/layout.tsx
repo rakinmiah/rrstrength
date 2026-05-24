@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   title: "RR Strength — Strength Coaching in Burgess Hill & Online",
   description:
     "One-to-one and online strength coaching from a nationally-competed, BSc-qualified coach. Your first session is free — or your money back.",
-  metadataBase: new URL("https://rrstrength.co.uk"),
+  metadataBase: new URL("https://rrstrength.com"),
   openGraph: {
     title: "RR Strength — Strength Coaching in Burgess Hill & Online",
     description:

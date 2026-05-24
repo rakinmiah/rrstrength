@@ -3,7 +3,7 @@ import { steps } from "@/content/steps";
 import { tiers } from "@/content/pricing";
 import { contact } from "@/content/navigation";
 
-const SITE = "https://rrstrength.co.uk";
+const SITE = "https://rrstrength.com";
 
 export function buildJsonLd() {
   return {
