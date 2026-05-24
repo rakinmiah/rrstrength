@@ -78,6 +78,17 @@
   color-scheme: dark; /* fixed dark aesthetic — no toggle (Phase 0) */
 }
 
+/* Responsive type scale — smaller display/heading sizes on phones
+   (the @theme values above are the desktop sizes). */
+@media (max-width: 640px) {
+  :root {
+    --text-display: 2.5rem; /* 40px */
+    --text-h2: 1.875rem; /* 30px */
+    --text-h3: 1.375rem; /* 22px */
+    --text-lead: 1.125rem; /* 18px */
+  }
+}
+
 * {
   border-color: var(--color-line);
 }

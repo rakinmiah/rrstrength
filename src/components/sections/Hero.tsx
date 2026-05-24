@@ -15,16 +15,25 @@ export function Hero() {
     <section
       id="top"
       aria-label="Introduction"
-      className="relative flex min-h-[88svh] items-end overflow-hidden lg:min-h-svh"
+      className="relative flex min-h-[88svh] items-end overflow-hidden pt-20 lg:min-h-svh lg:pt-0"
     >
-      {/* Full-bleed action photograph */}
+      {/* Full-bleed photograph — portrait crop on phones, landscape on larger screens */}
       <Image
-        src="/images/coach-team.jpg"
+        src="/images/coach-team-mobile.jpg"
         alt="Rashed Rahman, RR Strength coach, with two clients in the gym"
         fill
         priority
         sizes="100vw"
-        className="-z-20 object-cover"
+        className="-z-20 object-cover sm:hidden"
+        style={{ objectPosition: "50% 18%" }}
+      />
+      <Image
+        src="/images/coach-team.jpg"
+        alt="Rashed Rahman, RR Strength coach, with two clients in the gym"
+        fill
+        loading="eager"
+        sizes="100vw"
+        className="-z-20 hidden object-cover sm:block"
         style={{ objectPosition: "50% 32%" }}
       />
       {/* Bottom-up legibility scrim */}
@@ -69,7 +78,7 @@ export function Hero() {
             </Button>
           </div>
           <p
-            className="rise-in mt-4 text-sm text-muted"
+            className="rise-in mt-4 text-center text-sm text-muted"
             style={{ animationDelay: "240ms" }}
           >
             First in-person session free

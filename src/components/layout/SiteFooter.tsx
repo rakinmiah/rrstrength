@@ -2,17 +2,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { navLinks, contact } from "@/content/navigation";
 
-// Brand glyph (lucide-react dropped brand logos; logos aren't part of the UI icon set).
-function InstagramGlyph() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden>
-      <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" strokeWidth="1.75" />
-      <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="1.75" />
-      <circle cx="17.5" cy="6.5" r="1" fill="currentColor" />
-    </svg>
-  );
-}
-
 const legal = [
   { label: "Privacy Policy", href: "/privacy" },
   { label: "Terms", href: "/terms" },
@@ -41,17 +30,6 @@ export function SiteFooter() {
             <p className="mt-3 max-w-56 text-sm text-ink-muted">
               Strength coaching · Burgess Hill &amp; online
             </p>
-            <div className="mt-4 flex gap-3">
-              <a
-                href={contact.instagram}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="RR Strength on Instagram"
-                className="grid size-11 place-items-center rounded-full border border-line-light transition-colors hover:border-brick hover:text-brick"
-              >
-                <InstagramGlyph />
-              </a>
-            </div>
           </div>
 
           {/* Contact */}

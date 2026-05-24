@@ -41,6 +41,10 @@ const clients: Client[] = [
     name: "Lena",
     desktop: { src: "/images/progress/lena.png", w: 1805, h: 1000 },
   },
+  {
+    name: "Soph",
+    desktop: { src: "/images/transformation-front.jpg", w: 2048, h: 1147 },
+  },
 ];
 
 export function Results() {
@@ -100,7 +104,9 @@ export function Results() {
                 height={client.desktop.h}
                 sizes="(max-width: 640px) 92vw, 900px"
                 className={`h-auto w-full ${client.mobile ? "hidden sm:block" : ""}`}
-                priority={active === 0}
+                {...(active === 0
+                  ? { priority: true }
+                  : { loading: "eager" as const })}
               />
               {client.mobile && (
                 <Image
@@ -110,6 +116,7 @@ export function Results() {
                   height={client.mobile.h}
                   sizes="92vw"
                   className="h-auto w-full sm:hidden"
+                  loading="eager"
                 />
               )}
             </motion.div>

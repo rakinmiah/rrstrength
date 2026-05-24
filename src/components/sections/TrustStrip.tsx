@@ -14,11 +14,11 @@ export function TrustStrip() {
       aria-label="Coach credentials"
       className="border-y border-line !py-8 lg:!py-10"
     >
-      <ul className="grid grid-cols-2 gap-y-8 sm:grid-cols-3 lg:grid-cols-5 lg:gap-y-0 lg:divide-x lg:divide-line">
+      <ul className="flex flex-wrap justify-center gap-x-8 gap-y-8 lg:gap-x-14">
         {credentials.map((c) => (
           <li
             key={c.label}
-            className="flex flex-col items-center gap-3 px-2 text-center lg:px-5"
+            className="flex w-[140px] flex-col items-center gap-3 text-center"
           >
             <span className="grid size-11 shrink-0 place-items-center rounded-full bg-brick/12 text-brick ring-1 ring-brick/20">
               <Icon name={c.icon} size={20} />
