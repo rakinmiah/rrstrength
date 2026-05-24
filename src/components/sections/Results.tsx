@@ -1,13 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   motion,
   useScroll,
   useTransform,
   useMotionTemplate,
-  useReducedMotion,
 } from "framer-motion";
 import { SectionShell } from "@/components/layout/SectionShell";
 import { Eyebrow } from "@/components/ui/Eyebrow";
@@ -15,46 +14,51 @@ import { Button } from "@/components/ui/Button";
 import { CTA_HREF } from "@/content/navigation";
 import { RESULTS_EYEBROW, RESULTS_HEADLINE } from "@/content/results";
 
-type Client = {
-  name: string;
-  desktop: { src: string; w: number; h: number };
-  mobile?: { src: string; w: number; h: number };
-};
+type Client = { name: string; src: string };
 
 const clients: Client[] = [
-  {
-    name: "Katy",
-    desktop: { src: "/images/progress/katy.png", w: 2139, h: 1000 },
-    mobile: { src: "/images/progress/katy-mobile.png", w: 1001, h: 2009 },
-  },
-  {
-    name: "Luke",
-    desktop: { src: "/images/progress/luke.png", w: 2204, h: 1000 },
-    mobile: { src: "/images/progress/luke-mobile.png", w: 1001, h: 2009 },
-  },
-  {
-    name: "Chell",
-    desktop: { src: "/images/progress/chell.png", w: 1805, h: 1000 },
-    mobile: { src: "/images/progress/chell-mobile.png", w: 1001, h: 2009 },
-  },
-  {
-    name: "Lena",
-    desktop: { src: "/images/progress/lena.png", w: 1805, h: 1000 },
-  },
-  {
-    name: "Soph",
-    desktop: { src: "/images/transformation-front.jpg", w: 2048, h: 1147 },
-  },
+  { name: "Katy", src: "/images/progress/katy.jpg" },
+  { name: "Luke", src: "/images/progress/luke.jpg" },
+  { name: "Chell", src: "/images/progress/chell.jpg" },
+  { name: "Lena", src: "/images/progress/lena.jpg" },
+  { name: "Soph", src: "/images/progress/soph-front.jpg" },
 ];
 
-export function Results() {
-  const reduce = useReducedMotion();
-  const [active, setActive] = useState(0);
-  const client = clients[active];
+// Shared frame: fixed aspect ratio + object-contain → every client renders at
+// the SAME height, so switching tabs never shifts the layout.
+const FRAME =
+  "relative aspect-video w-full overflow-hidden rounded-lg border border-line bg-surface-sunken";
+const SIZES = "(max-width: 640px) 92vw, 900px";
 
-  // Scroll-linked reveal: the image wipes open left→right behind a brick line
-  // as the section moves through the viewport. Driven by scroll position
-  // (not IntersectionObserver), so it always plays.
+function useIsDesktop() {
+  const [isDesktop, setIsDesktop] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)");
+    const update = () => setIsDesktop(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+  return isDesktop;
+}
+
+function StaticFrame({ client }: { client: Client }) {
+  return (
+    <div className={FRAME}>
+      <Image
+        src={client.src}
+        alt={`${client.name}'s before and after progress with RR Strength`}
+        fill
+        sizes={SIZES}
+        className="object-contain"
+        loading="eager"
+      />
+    </div>
+  );
+}
+
+// Desktop only — scroll-linked wipe with the brick divider.
+function AnimatedFrame({ client }: { client: Client }) {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -64,6 +68,32 @@ export function Results() {
   const clip = useMotionTemplate`inset(0 ${inset}% 0 0)`;
   const dividerLeft = useTransform(inset, (v) => `${100 - v}%`);
   const dividerOpacity = useTransform(scrollYProgress, [0, 0.9, 1], [1, 1, 0]);
+
+  return (
+    <div ref={ref} className={FRAME}>
+      <motion.div className="absolute inset-0" style={{ clipPath: clip }}>
+        <Image
+          src={client.src}
+          alt={`${client.name}'s before and after progress with RR Strength`}
+          fill
+          sizes={SIZES}
+          className="object-contain"
+          loading="eager"
+        />
+      </motion.div>
+      <motion.span
+        aria-hidden
+        className="absolute inset-y-0 z-10 w-[3px] bg-brick"
+        style={{ left: dividerLeft, opacity: dividerOpacity }}
+      />
+    </div>
+  );
+}
+
+export function Results() {
+  const [active, setActive] = useState(0);
+  const isDesktop = useIsDesktop();
+  const client = clients[active];
 
   function onTabKey(e: React.KeyboardEvent) {
     if (e.key === "ArrowRight") setActive((i) => (i + 1) % clients.length);
@@ -83,53 +113,16 @@ export function Results() {
         </h2>
 
         <div className="mt-9">
-          <motion.div
-            ref={ref}
+          <div
             role="tabpanel"
             aria-label={`${client.name}'s progress`}
-            style={reduce ? undefined : { clipPath: clip }}
-            className="relative overflow-hidden rounded-lg border border-line bg-surface-sunken"
           >
-            {/* Crossfade the image on tab switch */}
-            <motion.div
-              key={active}
-              initial={reduce ? false : { opacity: 0 }}
-              animate={reduce ? undefined : { opacity: 1 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
-            >
-              <Image
-                src={client.desktop.src}
-                alt={`${client.name}'s before and after progress with RR Strength`}
-                width={client.desktop.w}
-                height={client.desktop.h}
-                sizes="(max-width: 640px) 92vw, 900px"
-                className={`h-auto w-full ${client.mobile ? "hidden sm:block" : ""}`}
-                {...(active === 0
-                  ? { priority: true }
-                  : { loading: "eager" as const })}
-              />
-              {client.mobile && (
-                <Image
-                  src={client.mobile.src}
-                  alt={`${client.name}'s before and after progress with RR Strength`}
-                  width={client.mobile.w}
-                  height={client.mobile.h}
-                  sizes="92vw"
-                  className="h-auto w-full sm:hidden"
-                  loading="eager"
-                />
-              )}
-            </motion.div>
-
-            {/* Brick line riding the reveal edge */}
-            {!reduce && (
-              <motion.span
-                aria-hidden
-                className="absolute inset-y-0 z-10 w-[3px] bg-brick"
-                style={{ left: dividerLeft, opacity: dividerOpacity }}
-              />
+            {isDesktop ? (
+              <AnimatedFrame key={active} client={client} />
+            ) : (
+              <StaticFrame client={client} />
             )}
-          </motion.div>
+          </div>
 
           {/* Name tabs — flick through clients */}
           <div
