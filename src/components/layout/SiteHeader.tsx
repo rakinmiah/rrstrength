@@ -52,7 +52,8 @@ export function SiteHeader() {
   }, [open]);
 
   return (
-    <header
+    <>
+      <header
       role="banner"
       className={`fixed inset-x-0 top-0 z-[100] transition-all duration-200 ease-[var(--ease-standard)] ${
         scrolled
@@ -102,8 +103,10 @@ export function SiteHeader() {
           </button>
         </div>
       </div>
+      </header>
 
-      {/* Mobile drawer */}
+      {/* Mobile drawer — sibling of <header> so the header's backdrop-blur
+          doesn't trap this fixed overlay inside the header box */}
       {open && (
         <div
           role="dialog"
@@ -152,7 +155,7 @@ export function SiteHeader() {
           </p>
         </div>
       )}
-    </header>
+    </>
   );
 }
 
