@@ -4,14 +4,15 @@ import { contact } from "@/content/navigation";
 
 export const metadata: Metadata = {
   title: "Privacy Policy — RR Strength",
+  alternates: { canonical: "/privacy" },
   robots: { index: true, follow: true },
 };
 
 export default function PrivacyPage() {
   return (
-    <LegalShell title="Privacy Policy" updated="May 2026">
+    <LegalShell title="Privacy Policy">
       <p>
-        This policy explains how RR Strength (&ldquo;we&rdquo;, &ldquo;I&rdquo;)
+        This policy explains how RR Strength (“we”, “I”)
         collects and uses your personal information when you use this website
         and enquire about coaching. We are the data controller for the
         information you provide.
@@ -65,7 +66,7 @@ export default function PrivacyPage() {
         the use of your information, and to withdraw consent. To exercise any of
         these, contact{" "}
         <a href={contact.emailHref}>{contact.email}</a>. You also have the right
-        to complain to the Information Commissioner&apos;s Office (ico.org.uk).
+        to complain to the Information Commissioner’s Office (ico.org.uk).
       </p>
 
       <h2>Contact</h2>

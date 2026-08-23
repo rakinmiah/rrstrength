@@ -20,7 +20,7 @@ function Wordmark() {
         alt="RR Strength"
         width={5427}
         height={961}
-        priority
+        preload
         className="h-6 w-auto sm:h-7"
       />
     </Link>
@@ -105,8 +105,8 @@ export function SiteHeader() {
       </div>
       </header>
 
-      {/* Mobile drawer — sibling of <header> so the header's backdrop-blur
-          doesn't trap this fixed overlay inside the header box */}
+      {/* Mobile drawer — sibling of <header> so the header’s backdrop-blur
+          doesn’t trap this fixed overlay inside the header box */}
       {open && (
         <div
           role="dialog"

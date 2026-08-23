@@ -2,8 +2,7 @@ import { faqs } from "@/content/faqs";
 import { steps } from "@/content/steps";
 import { tiers } from "@/content/pricing";
 import { contact } from "@/content/navigation";
-
-const SITE = "https://rrstrength.com";
+import { SITE_URL as SITE } from "@/lib/site";
 
 export function buildJsonLd() {
   return {
@@ -14,7 +13,7 @@ export function buildJsonLd() {
         "@id": `${SITE}/#business`,
         name: "RR Strength",
         description:
-          "One-to-one, online and hybrid strength & powerlifting coaching from a nationally-competed, BSc-qualified coach.",
+          "One-to-one, online and hybrid strength & powerlifting coaching from a nationally competed, BSc-qualified coach.",
         url: SITE,
         telephone: "+447565220897",
         email: contact.email,
@@ -38,7 +37,7 @@ export function buildJsonLd() {
         worksFor: { "@id": `${SITE}/#business` },
         hasCredential: [
           "Level 3 Personal Trainer",
-          "1st-Class BSc Sport & Exercise Science",
+          "First-Class BSc Sport & Exercise Science",
         ],
       },
       {

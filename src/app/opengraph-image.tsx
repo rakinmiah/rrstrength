@@ -41,7 +41,7 @@ export default function OpengraphImage() {
               color: "#f7f5f0",
             }}
           >
-            I&apos;ll get you stronger
+            I’ll get you stronger
           </div>
           <div
             style={{
@@ -55,7 +55,7 @@ export default function OpengraphImage() {
             — or your money back.
           </div>
           <div style={{ marginTop: 28, fontSize: 30, color: "#b5b0a6" }}>
-            Strength coaching · Burgess Hill &amp; online · First session free
+            Burgess Hill & online · First in-person session free
           </div>
         </div>
       </div>

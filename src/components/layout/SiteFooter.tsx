@@ -28,7 +28,7 @@ export function SiteFooter() {
               className="h-7 w-auto [filter:brightness(0)]"
             />
             <p className="mt-3 max-w-56 text-sm text-ink-muted">
-              Strength coaching · Burgess Hill &amp; online
+              Strength coaching · Burgess Hill & online
             </p>
           </div>
 

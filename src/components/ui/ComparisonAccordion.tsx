@@ -35,7 +35,7 @@ export function ComparisonAccordion() {
         onClick={() => setOpen((v) => !v)}
         className="flex w-full items-center justify-between py-3 text-left font-display text-h4 uppercase text-fg"
       >
-        Compare what&apos;s included
+        Compare what’s included
         <Icon
           name="chevron"
           size={22}

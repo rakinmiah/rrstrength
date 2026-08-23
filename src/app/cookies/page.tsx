@@ -4,12 +4,13 @@ import { contact } from "@/content/navigation";
 
 export const metadata: Metadata = {
   title: "Cookie Policy — RR Strength",
+  alternates: { canonical: "/cookies" },
   robots: { index: true, follow: true },
 };
 
 export default function CookiesPage() {
   return (
-    <LegalShell title="Cookie Policy" updated="May 2026">
+    <LegalShell title="Cookie Policy">
       <p>
         This site is built to be light on cookies. We do not use analytics,
         advertising, or tracking cookies, and there is no third-party tracking
@@ -27,7 +28,7 @@ export default function CookiesPage() {
       <p>
         Form submissions are sent via our email provider, Resend. Links to
         Instagram open that platform in a new tab; once there, that
-        platform&apos;s own cookie and privacy policies apply.
+        platform’s own cookie and privacy policies apply.
       </p>
 
       <h2>Contact</h2>

@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# RR Strength
 
-## Getting Started
+Marketing site for RR Strength — strength & powerlifting coaching in Burgess
+Hill and online. Single-page site plus three legal pages, statically rendered.
 
-First, run the development server:
+## Stack
+
+- **Next.js 16** (App Router, Turbopack) — see `AGENTS.md`: this version has
+  breaking changes, so read `node_modules/next/dist/docs/` before writing code.
+- **React 19**, **TypeScript** (strict)
+- **Tailwind CSS 4** — design tokens live in `@theme` in `src/app/globals.css`
+- **react-hook-form** + **zod** for the multi-step intake form
+- **Resend** for delivering enquiries by email
+- **framer-motion**, **lucide-react**
+
+## Getting started
+
+```bash
+npm install
+```
+
+Copy `.env.example` to `.env.local` and fill it in:
+
+| Variable         | Purpose                                                  |
+| ---------------- | -------------------------------------------------------- |
+| `RESEND_API_KEY` | Resend API key. Unset in dev → the form works but sends nothing (logged). In production a missing key makes the form fail visibly rather than dropping the enquiry. |
+| `RESEND_FROM`    | Verified sending address.                                |
+| `RR_INBOX`       | Destination inbox for enquiries and intakes.             |
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Checks
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run lint && npx tsc --noEmit && npm run build
+```
 
-## Learn More
+## Layout
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/
+  app/        routes, metadata, robots.ts, sitemap.ts, opengraph-image.tsx
+  components/
+    layout/   SiteHeader, SiteFooter, SectionShell, LegalShell
+    sections/ one file per homepage section, composed in app/page.tsx
+    ui/       Button, Icon, Eyebrow, cards, accordions
+  content/    all copy and data — edit here, not in components
+  lib/        schema (zod), actions (server actions), email (Resend), jsonld, site
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Copy, pricing, FAQs, credentials and navigation are data in `src/content/` —
+change those files rather than editing JSX. `src/content/nextEvent.ts` drives
+the Events section: set `nextEvent` to an object when a meet is scheduled, or
+leave it `null` for the evergreen state.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+`website-plan/` holds the brand, IA and design-token planning documents the
+site was built from.

@@ -33,6 +33,7 @@ export function ContactForm() {
   const [step, setStep] = useState(0);
   const [done, setDone] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
+  const [pending, setPending] = useState(false);
   const leadSent = useRef(false);
   const total = STEP_LABELS.length;
 
@@ -47,6 +48,10 @@ export function ContactForm() {
     resolver: zodResolver(intakeSchema),
     mode: "onTouched",
   });
+
+  // isSubmitting only covers handleSubmit (the final step); `pending` covers
+  // the per-step lead send so Continue can’t be double-fired.
+  const busy = pending || isSubmitting;
 
   function applyFieldErrors(fe?: Record<string, string>) {
     if (!fe) return;
@@ -69,18 +74,32 @@ export function ContactForm() {
   }
 
   async function next() {
+    if (busy) return;
     setFormError(null);
     const ok = await trigger(STEP_FIELDS[step]);
     if (!ok) return;
-    if (step === 0 && !(await fireLead())) return;
+    if (step === 0) {
+      setPending(true);
+      try {
+        if (!(await fireLead())) return;
+      } finally {
+        setPending(false);
+      }
+    }
     setStep((s) => Math.min(s + 1, total - 1));
   }
 
   async function sendNow() {
+    if (busy) return;
     setFormError(null);
     const ok = await trigger(STEP_FIELDS[0]);
     if (!ok) return;
-    if (await fireLead()) setDone(true);
+    setPending(true);
+    try {
+      if (await fireLead()) setDone(true);
+    } finally {
+      setPending(false);
+    }
   }
 
   async function finalSubmit(values: IntakeInput) {
@@ -111,7 +130,7 @@ export function ContactForm() {
                 Got it — thank you.
               </h2>
               <p className="mt-2 text-muted">
-                I&apos;ll be in touch within 24 hours to book your free session.
+                I’ll be in touch within 24 hours to book your free session.
               </p>
             </div>
           ) : (
@@ -159,11 +178,15 @@ export function ContactForm() {
                 />
 
                 <fieldset>
-                  <legend
-                    id={step === 0 ? "start-h" : undefined}
-                    className="font-display text-h3 font-bold uppercase text-fg"
-                  >
-                    {step === 0 ? "Claim your free session" : STEP_LABELS[step]}
+                  <legend>
+                    <h2
+                      id="start-h"
+                      className="font-display text-h3 font-bold uppercase text-fg"
+                    >
+                      {step === 0
+                        ? "Claim your free session"
+                        : STEP_LABELS[step]}
+                    </h2>
                   </legend>
 
                   <AnimatePresence mode="wait">
@@ -205,8 +228,8 @@ export function ContactForm() {
                       Back
                     </Button>
                   )}
-                  <Button type="submit" disabled={isSubmitting}>
-                    {isSubmitting
+                  <Button type="submit" disabled={busy}>
+                    {busy
                       ? "Sending…"
                       : step < total - 1
                         ? "Continue"
@@ -216,10 +239,10 @@ export function ContactForm() {
                     <button
                       type="button"
                       onClick={sendNow}
-                      disabled={isSubmitting}
+                      disabled={busy}
                       className="text-sm text-link underline-offset-4 hover:underline disabled:opacity-60"
                     >
-                      Send this and I&apos;ll be in touch
+                      Send this and I’ll be in touch
                     </button>
                   )}
                 </div>
@@ -247,7 +270,7 @@ export function ContactForm() {
             </ul>
             <p className="mt-5 border-t border-line pt-4 text-sm text-muted">
               <span className="font-semibold text-fg">What happens next:</span>{" "}
-              I&apos;ll reply within 24 hours to book your free session.
+              I’ll reply within 24 hours to book your free session.
             </p>
             <p className="mt-4 text-sm text-muted">
               {contact.phone} · {contact.instagramHandle}
@@ -396,7 +419,7 @@ function Step3({ register }: { register: Reg }) {
   return (
     <>
       <p className="text-sm text-muted">
-        These help me coach you safely. Share what you&apos;re comfortable with.
+        These help me coach you safely. Share what you’re comfortable with.
       </p>
       <Field label="Diagnosed health problems">
         <input className={inputCls} {...register("healthConditions")} />
@@ -414,13 +437,13 @@ function Step3({ register }: { register: Reg }) {
 function Step4({ register }: { register: Reg }) {
   return (
     <>
-      <Field label="What's your training goal?">
+      <Field label="What’s your training goal?">
         <input className={inputCls} {...register("goalText")} />
       </Field>
       <Field label="Why?">
         <input className={inputCls} {...register("goalWhy")} />
       </Field>
-      <Field label="Sessions per week you're willing to train">
+      <Field label="Sessions per week you’re willing to train">
         <input type="number" inputMode="numeric" className={inputCls} {...register("weeklyWillingness")} />
       </Field>
     </>
@@ -450,7 +473,7 @@ function Step5({ register, errors }: { register: Reg; errors: Errs }) {
         <span>
           I confirm the information above is correct, and I consent to RR
           Strength storing and using my health information to coach me safely. I
-          understand it&apos;s kept confidential.
+          understand it’s kept confidential.
         </span>
       </label>
       {errors.consent && (

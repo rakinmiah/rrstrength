@@ -4,11 +4,9 @@ import { SiteFooter } from "@/components/layout/SiteFooter";
 
 export function LegalShell({
   title,
-  updated,
   children,
 }: {
   title: string;
-  updated: string;
   children: React.ReactNode;
 }) {
   return (
@@ -30,13 +28,8 @@ export function LegalShell({
         <h1 className="font-display text-h2 font-bold uppercase text-fg">
           {title}
         </h1>
-        <p className="mt-2 text-sm text-muted">Last updated: {updated}</p>
         <div className="legal-prose mt-8">{children}</div>
-        <p className="mt-12 rounded-md border border-line bg-surface p-4 text-sm text-muted">
-          This document is a working draft and requires review by a qualified
-          adviser before launch.
-        </p>
-        <p className="mt-6">
+        <p className="mt-12">
           <Link href="/" className="text-link underline-offset-4 hover:underline">
             ← Back to home
           </Link>

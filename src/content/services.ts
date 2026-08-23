@@ -9,7 +9,7 @@ export type Service = {
   featured?: boolean;
 };
 
-export const SERVICES_EYEBROW = "How we'll work together";
+export const SERVICES_EYEBROW = "How we’ll work together";
 export const SERVICES_HEADLINE = "Three ways to train. One standard.";
 
 const bullets = [
@@ -32,7 +32,7 @@ export const services: Service[] = [
     icon: "merge",
     title: "Hybrid",
     blurb:
-      "The best of both — in-person sessions plus a programme you run between them.",
+      "The best of both: in-person sessions plus a programme you run between them.",
     bullets,
     featured: true,
   },

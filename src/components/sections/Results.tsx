@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import {
   motion,
   useScroll,
@@ -51,7 +51,6 @@ function StaticFrame({ client }: { client: Client }) {
         fill
         sizes={SIZES}
         className="object-contain"
-        loading="eager"
       />
     </div>
   );
@@ -78,7 +77,6 @@ function AnimatedFrame({ client }: { client: Client }) {
           fill
           sizes={SIZES}
           className="object-contain"
-          loading="eager"
         />
       </motion.div>
       <motion.span
@@ -95,10 +93,28 @@ export function Results() {
   const isDesktop = useIsDesktop();
   const client = clients[active];
 
+  const uid = useId();
+  const tabId = (i: number) => `${uid}-tab-${i}`;
+  const panelId = `${uid}-panel`;
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+
+  // Roving tabindex: selecting via the keyboard must move focus too, otherwise
+  // focus is stranded on a button that has just become tabIndex={-1}.
+  function select(i: number) {
+    setActive(i);
+    tabRefs.current[i]?.focus();
+  }
+
   function onTabKey(e: React.KeyboardEvent) {
-    if (e.key === "ArrowRight") setActive((i) => (i + 1) % clients.length);
-    if (e.key === "ArrowLeft")
-      setActive((i) => (i - 1 + clients.length) % clients.length);
+    const last = clients.length - 1;
+    let next: number | null = null;
+    if (e.key === "ArrowRight") next = active === last ? 0 : active + 1;
+    else if (e.key === "ArrowLeft") next = active === 0 ? last : active - 1;
+    else if (e.key === "Home") next = 0;
+    else if (e.key === "End") next = last;
+    if (next === null) return;
+    e.preventDefault();
+    select(next);
   }
 
   return (
@@ -115,7 +131,9 @@ export function Results() {
         <div className="mt-9">
           <div
             role="tabpanel"
-            aria-label={`${client.name}'s progress`}
+            id={panelId}
+            aria-labelledby={tabId(active)}
+            tabIndex={0}
           >
             {isDesktop ? (
               <AnimatedFrame key={active} client={client} />
@@ -136,8 +154,13 @@ export function Results() {
               return (
                 <button
                   key={c.name}
+                  id={tabId(i)}
+                  ref={(el) => {
+                    tabRefs.current[i] = el;
+                  }}
                   role="tab"
                   aria-selected={selected}
+                  aria-controls={panelId}
                   tabIndex={selected ? 0 : -1}
                   onClick={() => setActive(i)}
                   className={`rounded-pill border px-5 py-2 font-display text-h4 uppercase tracking-wide transition-colors ${

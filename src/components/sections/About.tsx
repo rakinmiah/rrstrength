@@ -47,14 +47,14 @@ export function About() {
 
           <div className="mt-6 max-w-xl space-y-4 text-[17px] leading-relaxed text-muted">
             <p>
-              I got into lifting to look good. What I didn&apos;t expect was
+              I got into lifting to look good. What I didn’t expect was
               what it did to my head — the discipline, the confidence, the way
               it spilled into everything else.
             </p>
             <p>
-              I&apos;ve trained since I was 14, competed at national level, and
+              I’ve trained since I was 14, competed at national level, and
               earned a First-Class degree so I could coach it properly. Now I
-              help people — first-timers and competitors alike — get the same
+              help people, first-timers and competitors alike, get the same
               thing I did.
             </p>
           </div>

@@ -50,7 +50,7 @@ export type Cell = string; // "✓" | "✗" | text
 export type CompareRow = { feature: string; cells: [Cell, Cell, Cell] };
 
 export const compareRows: CompareRow[] = [
-  { feature: "1-to-1 in-person sessions", cells: ["1–5 / week", "None", "1–3 / week"] },
+  { feature: "One-to-one in-person sessions", cells: ["1–5 / week", "None", "1–3 / week"] },
   { feature: "Tailored programme", cells: ["✓", "✓", "✓"] },
   { feature: "Nutritional guidance", cells: ["✓", "✓", "✓"] },
   { feature: "In-person form support", cells: ["✓", "✗", "✓"] },

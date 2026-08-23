@@ -3,7 +3,7 @@ import { Icon } from "@/components/ui/Icon";
 import { credentials } from "@/content/credentials";
 
 /**
- * Credential rail — a framed dark band that reads as the hero's foundation
+ * Credential rail — a framed dark band that reads as the hero’s foundation
  * (proof), not a pasted-on strip. Evenly-divided cells, each with a brick icon
  * badge, give it structure and rhythm.
  */

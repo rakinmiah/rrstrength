@@ -30,7 +30,7 @@ export function FinalCta() {
         />
         <div className="mx-auto flex max-w-[640px] flex-col items-center px-5 py-24 text-center sm:px-8 lg:py-32">
           <h2 className="font-display text-display font-bold uppercase text-fg">
-            Ready? Your first in-person session&apos;s on me.
+            Ready? Your first in-person session’s on me.
           </h2>
           <div className="mt-8">
             <Button href={CTA_HREF} size="lg">

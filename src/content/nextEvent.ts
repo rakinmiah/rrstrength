@@ -15,4 +15,4 @@ export const nextEvent: RREvent | null = null;
 // No-event (evergreen) copy
 export const EVENTS_NOEVENT_HEADLINE = "We lift for more than ourselves.";
 export const EVENTS_NOEVENT_BODY =
-  "RR Strength runs charity powerlifting meets that raise money for children in Palestine — run entirely by volunteers. The next one will be announced here.";
+  "RR Strength runs charity powerlifting meets that raise money for children in Palestine. They’re run entirely by volunteers, and the next one will be announced here.";

@@ -7,7 +7,7 @@ export const GOALS = [
   "Competition prep",
 ] as const;
 
-export const MODES = ["In-person", "Online", "Hybrid", "Not sure yet"] as const;
+export const MODES = ["In-Person", "Online", "Hybrid", "Not sure yet"] as const;
 
 // Step 1 — the low-friction lead (emailed immediately).
 export const leadSchema = z.object({
